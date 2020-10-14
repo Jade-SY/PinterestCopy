@@ -60,7 +60,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .container {
-  padding: 80px;
+  padding: 100px;
 }
 .masonry-container {
   margin: 0 auto;
