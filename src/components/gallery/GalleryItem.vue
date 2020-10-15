@@ -4,25 +4,31 @@
       <img :src="url" alt="image" class="gallery-item" />
       <transition name="fade">
         <div class="cover" v-if="isShow">
-          <v-menu offset-y>
-            <template v-slot:activator="{ on, attrs }">
-              <v-text-field
-                v-model="categoty"
-                solo
-                append-icon="mdi-chevron-down"
-                class="menu"
-                v-bind="attrs"
-                v-on="on"
-              >
-                Dropdown
-              </v-text-field>
-            </template>
+          <v-text-field
+            v-model="categoty"
+            solo
+            append-icon="mdi-chevron-down"
+            class="menu"
+            label="Regular"
+            @click="menuClick"
+          >
+          </v-text-field>
+          <div class="right-btn" @click="menuClick">저장</div>
+          <v-card width="200" class="list-card" v-if="isMenuShow">
             <v-list>
               <v-list-item v-for="(item, index) in items" :key="index">
                 <v-list-item-title>{{ item.title }}</v-list-item-title>
               </v-list-item>
             </v-list>
-          </v-menu>
+          </v-card>
+          <div class="under-wrapper">
+            <v-btn icon dark>
+              <v-icon>mdi-upload</v-icon>
+            </v-btn>
+            <v-btn icon dark>
+              <v-icon>mdi-dots-horizontal</v-icon>
+            </v-btn>
+          </div>
         </div>
       </transition>
     </div>
@@ -72,8 +78,8 @@ export default {
   data() {
     return {
       isShow: false,
-
       isMouseOver: false,
+      isMenuShow: true,
       categoty: 'cloth',
       items: [
         { title: 'Repository' },
@@ -91,6 +97,9 @@ export default {
     mouseleave() {
       this.isShow = false;
       this.isMouseOver = false;
+    },
+    menuClick() {
+      this.isMenuShow != this.isMenuShow;
     },
   },
 };
@@ -116,9 +125,28 @@ export default {
   background: rgba(0, 0, 0, 0.3);
 }
 .menu {
-  width: 80%;
+  width: 60%;
   margin: 20px;
-  border-radius: 10px;
+  border-radius: 10px 0 0 10px;
+}
+.right-btn {
+  width: 20%;
+  height: 49px;
+  position: absolute;
+  right: 48px;
+  top: 20px;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+  line-height: 49px;
+  border-radius: 0 10px 10px 0;
+  background: rgb(180, 0, 0);
+  display: inline-block;
+}
+.list-card {
+  top: -54px;
+  left: 15px;
+  z-index: 3;
 }
 //anmation
 .fade-enter-active,
@@ -128,6 +156,12 @@ export default {
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
+}
+
+.under-wrapper {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
 }
 // .name {
 //   font-weight: bold;

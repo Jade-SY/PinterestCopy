@@ -11,7 +11,7 @@
         ><v-icon color="red accent-4" size="30">mdi-pinterest</v-icon></v-btn
       >
       <router-link to="/">
-        <v-btn depressed height="50" rounded v-on="on">
+        <v-btn depressed height="50" rounded>
           홈
         </v-btn></router-link
       >
@@ -23,6 +23,7 @@
 
       <v-text-field
         v-model="search"
+        @keyup.enter="enterFunc"
         label="Search"
         placeholder="검색"
         prepend-inner-icon="mdi-magnify"
@@ -76,20 +77,28 @@
 
 <script>
 export default {
-  data: () => ({
-    account: [
-      { title: '다른 계정 추가' },
-      { title: '무료 Business 계정 추가' },
-    ],
-    options: [
-      { title: '설정' },
-      { title: '홈피드 조정' },
-      { title: 'Windows 앱 설치' },
-      { title: '도움 받기' },
-      { title: '약관 및 개인정보 보기' },
-      { title: '로그아웃' },
-    ],
-  }),
+  data: () => {
+    return {
+      account: [
+        { title: '다른 계정 추가' },
+        { title: '무료 Business 계정 추가' },
+      ],
+      options: [
+        { title: '설정' },
+        { title: '홈피드 조정' },
+        { title: 'Windows 앱 설치' },
+        { title: '도움 받기' },
+        { title: '약관 및 개인정보 보기' },
+        { title: '로그아웃' },
+      ],
+      search: '',
+    };
+  },
+  methods: {
+    enterFunc() {
+      this.$store.commit('setSearchText', this.search);
+    },
+  },
 };
 </script>
 

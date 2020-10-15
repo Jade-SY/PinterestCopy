@@ -11,7 +11,7 @@
       <gallery-item
         v-masonry-tile
         class="item"
-        v-for="(item, index) in images"
+        v-for="(item, index) in filteredImages"
         :key="index"
         :url="item.download_url"
         :author="item.author"
@@ -33,7 +33,19 @@ export default {
       isMouseOver: false,
     };
   },
-  computed: { ...mapState(['images']) },
+  computed: {
+    ...mapState(['images', 'searchText']),
+    filteredImages() {
+      if (this.searchText) {
+        return this.images.filter((image, i) => {
+          console.log(this.searchText);
+          return i === Number(this.searchText); //searchText입력값을 숫자로 강제고정
+        });
+      } else {
+        return this.images;
+      }
+    },
+  },
   methods: {
     mouseover() {
       this.isMouseOver = true;
@@ -42,9 +54,9 @@ export default {
       this.isMouseOver = false;
     },
   },
+
   beforeMount() {
     this.$http.get('https://picsum.photos/v2/list').then((images) => {
-      console.log(images);
       let resizeImage = images.data.map((el) => {
         let tmpArr = el.download_url.split('/');
         let deleted = tmpArr.splice(-2, 2);
